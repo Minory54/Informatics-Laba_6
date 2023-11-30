@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -25,14 +26,14 @@ namespace N1
             InitializeComponent();
         }
 
-        float readFloat (TextBox tb_dec)
+        float readFloat (TextBox tb_dec) // проверка вещественноого числа (Задание 1)
         {
             string num = tb_dec.Text.Replace(".", ",");
             float floatNum;
 
             while (!(float.TryParse(num, out floatNum)))
             {
-                MessageBox.Show("Неверно задано число.", "Ошибка!");
+                MessageBox.Show("Неверно задано вещественное число.", "Ошибка!");
                 tb_dec.BorderBrush = Brushes.Red;
                 return 0;
             }
@@ -40,7 +41,47 @@ namespace N1
             return floatNum;
         }
 
-        static int[] intToBin(int n) // Перевод числа в двоичную систему (для задания 3)
+        string readStr(TextBox tb_dec) // проверка двоичного числа (Задание 1)
+        {
+            string strNum = tb_dec.Text.Replace(" ", "");
+            double doubleNum;
+
+            while (!(double.TryParse(tb_bin.Text, out doubleNum)) || (strNum.Length != 32))
+            {
+                MessageBox.Show("Неверно задано двоичное число.", "Ошибка!");
+                tb_bin.BorderBrush = Brushes.Red;
+                return "";
+            }
+            tb_dec.BorderBrush = Brushes.Green;
+
+            return strNum;
+        }
+
+        //byte[] readBin(TextBox tb_bin) // проверка на дробное число
+        //{
+        //    double doubleNum;
+        //    //string num = tb_bin.Text.Replace(" ", "");
+
+        //    while (!(double.TryParse(tb_bin.Text, out doubleNum)) || (tb_bin.Text.Length != 32))
+        //    {
+        //        MessageBox.Show("Неверно задано двоичное число.", "Ошибка!");
+        //        tb_bin.BorderBrush = Brushes.Red;               
+        //    }
+        //    tb_dec.BorderBrush = Brushes.Green;
+
+        //    string strNum = Convert.ToString(doubleNum);
+
+
+        //    byte[] array = new byte[31];
+        //    for (int i = 0; i < strNum.Length; i++)
+        //    {
+        //        array[i] = (byte)char.GetNumericValue(strNum[i]);
+        //    }
+
+        //    return array;
+        //}
+
+        static int[] intToBin(int n) // Перевод числа в двоичную систему
         {
             int absNum = Math.Abs(n);
             int[] array = new int[8];
@@ -65,6 +106,29 @@ namespace N1
             }
 
             return array;
+        }
+
+        static int binToInt(int[] n) // Перевод строки в чило int 
+        {
+            int[] array = new int[8];
+            array = n;
+            int result = 0;
+
+            if (n[0] == 1) // Условие если изначальное число отрицательное
+            {
+                array = addOne(invers(n));
+            }
+
+            for (int i = 0, j = 7; i < 8 && j >= 0; i++, j--)
+            {
+                result = result + array[i] * Convert.ToInt32(Math.Pow(2, j));
+            }
+            if (n[0] == 1)
+            {
+                result = Convert.ToInt32(result * (-1));
+            }
+
+            return result;
         }
 
         static int[] invers(int[] array)
@@ -110,22 +174,49 @@ namespace N1
             return resArray;
         }
 
-        static void print(int[] m, ListBox lb_result)
+        string printBin(int[] m, ListBox lb_result) // вывод числа в двоичном виде (из массива [1,1,0,0,1,1,0,1] в стоку "11001101")
         {
             string result = "";
 
             for (int i = 0; i < m.Length; i++)
             {
-                if (i == 4)
-                {
-                    result = result + " " + m[i];
-                }
-                else
-                {
-                    result = result + m[i];
-                }
+                result = result + m[i];
             }
-            lb_result.Items.Add(result);
+            return result;
+        }
+
+        void print1(byte[] tmp, ListBox lb_result) //вывод решения (задание 1)
+        {
+            string result = "";
+
+            for (int i = tmp.Length-1; i >= 0; i--)
+            {
+                lb_result.Items.Add($"{i} byte[{tmp[i]}] -> {printBin(intToBin(tmp[i]), lb_result)}"); // преобразование числа 205 в стоку "11001101"
+                result = result + printBin(intToBin(tmp[i]), lb_result) + " ";
+            }
+
+            lb_result.Items.Add($"result -> {result}");
+        }
+
+        byte[] divisionString(string numStr)
+        {
+            return null;
+        }
+
+
+        void print2(string numStr, ListBox lb_result)
+        {
+
+            byte[] tmp = divisionString(numStr);
+            //тут должна быть функция разделения строки на блоки по 8 бит
+
+            for (int i = tmp.Length - 1; i >= 0; i--)
+            {
+
+            }
+
+            float result = BitConverter.ToSingle();
+            lb_result.Items.Add($"result -> {result}");
         }
 
         private void clickDoIt(object sender, RoutedEventArgs e)
@@ -135,18 +226,21 @@ namespace N1
 
             lb_result.Items.Clear();
             lb_result.Items.Add($"GetBytes result -> [{tmp[0]}][{tmp[1]}][{tmp[2]}][{tmp[3]}]");
-            lb_result.Items.Add($"3 byte {tmp[3]} -> {intToBin(tmp[3])}");
-            //lb_result.Items.Add($"{num} -> Bin");
-            //lb_result.Items.Add (Convert.ToInt32(num));
-            //lb_result.Items.Add(num % 10);
-            print(intToBin(tmp[3]), lb_result);
-            
+            print1(tmp, lb_result);
 
         }
 
         private void clickUndoIt(object sender, RoutedEventArgs e)
         {
 
+            string numStr = readStr(tb_bin);
+
+            //byte[] numByte = readBin(tb_bin);
+            //float num = BitConverter.ToSingle(numByte, 0);
+
+            lb_result.Items.Clear();
+            lb_result.Items.Add($"GetBytes result -> {numStr}");
+            print2(numStr, lb_result);
         }
     }
 }
