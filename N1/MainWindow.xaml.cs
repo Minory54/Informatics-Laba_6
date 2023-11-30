@@ -57,30 +57,6 @@ namespace N1
             return strNum;
         }
 
-        //byte[] readBin(TextBox tb_bin) // проверка на дробное число
-        //{
-        //    double doubleNum;
-        //    //string num = tb_bin.Text.Replace(" ", "");
-
-        //    while (!(double.TryParse(tb_bin.Text, out doubleNum)) || (tb_bin.Text.Length != 32))
-        //    {
-        //        MessageBox.Show("Неверно задано двоичное число.", "Ошибка!");
-        //        tb_bin.BorderBrush = Brushes.Red;               
-        //    }
-        //    tb_dec.BorderBrush = Brushes.Green;
-
-        //    string strNum = Convert.ToString(doubleNum);
-
-
-        //    byte[] array = new byte[31];
-        //    for (int i = 0; i < strNum.Length; i++)
-        //    {
-        //        array[i] = (byte)char.GetNumericValue(strNum[i]);
-        //    }
-
-        //    return array;
-        //}
-
         static int[] intToBin(int n) // Перевод числа в двоичную систему
         {
             int absNum = Math.Abs(n);
@@ -114,18 +90,9 @@ namespace N1
             array = n;
             int result = 0;
 
-            if (n[0] == 1) // Условие если изначальное число отрицательное
-            {
-                array = addOne(invers(n));
-            }
-
             for (int i = 0, j = 7; i < 8 && j >= 0; i++, j--)
             {
                 result = result + array[i] * Convert.ToInt32(Math.Pow(2, j));
-            }
-            if (n[0] == 1)
-            {
-                result = Convert.ToInt32(result * (-1));
             }
 
             return result;
@@ -174,7 +141,7 @@ namespace N1
             return resArray;
         }
 
-        string printBin(int[] m, ListBox lb_result) // вывод числа в двоичном виде (из массива [1,1,0,0,1,1,0,1] в стоку "11001101")
+        string printBin(int[] m) // вывод числа в двоичном виде (из массива [1,1,0,0,1,1,0,1] в стоку "11001101")
         {
             string result = "";
 
@@ -191,32 +158,41 @@ namespace N1
 
             for (int i = tmp.Length-1; i >= 0; i--)
             {
-                lb_result.Items.Add($"{i} byte[{tmp[i]}] -> {printBin(intToBin(tmp[i]), lb_result)}"); // преобразование числа 205 в стоку "11001101"
-                result = result + printBin(intToBin(tmp[i]), lb_result) + " ";
+                lb_result.Items.Add($"{i} byte[{tmp[i]}] -> {printBin(intToBin(tmp[i]))}"); // преобразование числа 205 в стоку "11001101"
+                result = result + printBin(intToBin(tmp[i])) + " ";
             }
 
             lb_result.Items.Add($"result -> {result}");
         }
 
-        byte[] divisionString(string numStr)
+        int[] divisionString(string numStr, int i)
         {
-            return null;
+            int j;
+            int[] result = new int[8];
+            
+            for (i = 8*i, j = 0; j < result.Length; i++, ++j) 
+            {
+                result[j] = (int)char.GetNumericValue(numStr[i]);                
+            }
+            return result;
         }
 
 
         void print2(string numStr, ListBox lb_result)
         {
 
-            byte[] tmp = divisionString(numStr);
-            //тут должна быть функция разделения строки на блоки по 8 бит
+            byte[] tmp = new byte[4];
 
-            for (int i = tmp.Length - 1; i >= 0; i--)
+            for (int i = tmp.Length - 1, j = 0; i >= 0; i--, j++)
             {
-
+                lb_result.Items.Add($"{i} byte[{(printBin(divisionString(numStr, j)))}] -> {binToInt(divisionString(numStr, j))} ");
+                tmp[i] = Convert.ToByte(binToInt(divisionString(numStr, j)));
             }
 
-            float result = BitConverter.ToSingle();
-            lb_result.Items.Add($"result -> {result}");
+            lb_result.Items.Add($"result -> [{tmp[0]}][{tmp[1]}][{tmp[2]}][{tmp[3]}]");
+            float result = BitConverter.ToSingle(tmp, 0);
+            lb_result.Items.Add($"[{tmp[0]}][{tmp[1]}][{tmp[2]}][{tmp[3]}] -> ToSingle -> {result}");
+
         }
 
         private void clickDoIt(object sender, RoutedEventArgs e)
@@ -232,11 +208,7 @@ namespace N1
 
         private void clickUndoIt(object sender, RoutedEventArgs e)
         {
-
             string numStr = readStr(tb_bin);
-
-            //byte[] numByte = readBin(tb_bin);
-            //float num = BitConverter.ToSingle(numByte, 0);
 
             lb_result.Items.Clear();
             lb_result.Items.Add($"GetBytes result -> {numStr}");
