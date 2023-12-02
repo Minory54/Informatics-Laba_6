@@ -1,0 +1,46 @@
+﻿<Window x:Class="N3_4.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:N3_4"
+        mc:Ignorable="d"
+        Title="Лаба 6" ResizeMode="NoResize" Height="350" Width="500">
+
+    <Window.Resources>
+        <Style TargetType="Button">
+            <Setter Property="FontSize" Value="16"></Setter>
+            <Setter Property="Height" Value="24"></Setter>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Background" Value="Lavender"/>
+        </Style>
+
+        <Style TargetType="TextBox">
+            <Setter Property="FontSize" Value="15"></Setter>
+            <Setter Property="Width" Value="128"></Setter>
+        </Style>
+
+        <Style TargetType="Label">
+            <Setter Property="FontSize" Value="16"></Setter>
+        </Style>
+    </Window.Resources>
+
+    <Grid>
+        <Label Content="Dec" HorizontalAlignment="Left" Margin="8,64,0,0" VerticalAlignment="Top"/>
+        <TextBox x:Name="tb_dec" HorizontalAlignment="Left" Margin="50,68,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="311"/>
+
+        <Label Content="Sign" HorizontalAlignment="Left" Margin="8,98,0,0" VerticalAlignment="Top"/>
+        <TextBox x:Name="tb_sign" HorizontalAlignment="Left" Margin="50,104,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="24"/>
+
+        <Label Content="Exp" HorizontalAlignment="Left" Margin="77,98,0,0" VerticalAlignment="Top"/>
+        <TextBox x:Name="tb_exp" HorizontalAlignment="Left" Margin="117,104,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="77"/>
+
+        <Label Content="Mantissa 1," HorizontalAlignment="Left" Margin="198,98,0,0" VerticalAlignment="Top"/>
+        <TextBox  x:Name="tb_mantissa" HorizontalAlignment="Left" Margin="290,104,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="200"/>
+
+        <Button x:Name="btn_bin" Content="to BIN" HorizontalAlignment="Left" Margin="366,67,0,0" VerticalAlignment="Top" Width="58" Click="btn_toBin" />
+        <Button x:Name="btn_dec" Content="to DEC" HorizontalAlignment="Left" Margin="431,67,0,0" VerticalAlignment="Top" Width="58" Click="btn_toDec" />
+
+        <ListBox x:Name="lb_result" Margin="10,147,10,33" FontSize="14" />
+    </Grid>
+</Window>

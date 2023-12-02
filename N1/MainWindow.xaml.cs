@@ -141,7 +141,7 @@ namespace N1
             return resArray;
         }
 
-        string printBin(int[] m) // вывод числа в двоичном виде (из массива [1,1,0,0,1,1,0,1] в стоку "11001101")
+        string printBin(int[] m) // вывод числа в двоичном виде 
         {
             string result = "";
 
@@ -158,7 +158,7 @@ namespace N1
 
             for (int i = tmp.Length-1; i >= 0; i--)
             {
-                lb_result.Items.Add($"{i} byte[{tmp[i]}] -> {printBin(intToBin(tmp[i]))}"); // преобразование числа 205 в стоку "11001101"
+                lb_result.Items.Add($"{i} byte[{tmp[i]}] -> {printBin(intToBin(tmp[i]))}");
                 result = result + printBin(intToBin(tmp[i])) + " ";
             }
 
