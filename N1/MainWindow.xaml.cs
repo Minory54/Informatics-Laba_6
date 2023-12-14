@@ -203,7 +203,6 @@ namespace N1
             lb_result.Items.Clear();
             lb_result.Items.Add($"GetBytes result -> [{tmp[0]}][{tmp[1]}][{tmp[2]}][{tmp[3]}]");
             print1(tmp, lb_result);
-
         }
 
         private void clickUndoIt(object sender, RoutedEventArgs e)

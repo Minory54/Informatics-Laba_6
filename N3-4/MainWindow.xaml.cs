@@ -28,19 +28,6 @@ namespace N3_4
 
         int[] readIntArray(TextBox textBox, int size) // Проверка на тип int[] (для задания 4)
         {
-
-            //double doubleNum; // используется этот тип потому что 
-
-            //while (!(double.TryParse(textBox.Text, out doubleNum)) || (Convert.ToString(doubleNum)).Length > size)
-            //{
-            //    MessageBox.Show("Неверно задано число.", "Ошибка!");
-            //    textBox.BorderBrush = Brushes.Red;
-
-            //    break;
-            //}
-            //textBox.BorderBrush = Brushes.Green;
-
-            //string strNum = Convert.ToString(doubleNum);
             string strNum = textBox.Text;
 
             if (strNum.Length < size)
@@ -224,7 +211,7 @@ namespace N3_4
             int[] arrayFracBin;
             int exp = 0;
 
-            if (n > 1)
+            if (n > 0)
             {
                 arrayIntBin = intToBin(n);
                 foreach (int i in arrayIntBin)
